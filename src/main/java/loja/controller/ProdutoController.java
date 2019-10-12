@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import loja.dao.ProdutoDao;
 import loja.model.Produto;
 
@@ -22,6 +25,12 @@ public class ProdutoController {
 	private ProdutoDao dao;
 	
 	 
+	@ApiOperation(value = "Lista todos os produtos da base ")
+	@ApiResponses(
+			value = {
+					@ApiResponse(code = 200, message = "Retorna a lista geral")
+			}
+			)
 	@RequestMapping(
 			value = "/produtos",
 			method = RequestMethod.GET,
@@ -49,6 +58,14 @@ public class ProdutoController {
 	}
 	
 
+	@ApiOperation(value = "Grava um produto na base ")
+	@ApiResponses(
+			value = {
+					@ApiResponse(code = 200, message = "Retorna o produto gravado"),
+					@ApiResponse(code = 403, message = "Voce não tem permissão para gravar")
+			}
+			)
+	
 	@RequestMapping( 
 			value = "/produtos",
 			method = RequestMethod.POST,
@@ -86,7 +103,7 @@ public class ProdutoController {
 	
 	@RequestMapping( 
 			value = "/produtos/{id}",
-			method = RequestMethod.PUT,
+			method = RequestMethod.DELETE,
 			produces  = "application/json"
 		)
 	public ResponseEntity<Produto> 
