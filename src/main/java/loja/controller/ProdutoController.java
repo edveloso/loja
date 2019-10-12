@@ -21,7 +21,7 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoDao dao;
 	
-	
+	 
 	@RequestMapping(
 			value = "/produtos",
 			method = RequestMethod.GET,
@@ -60,6 +60,43 @@ public class ProdutoController {
 	}
 	
 	
+
+	@RequestMapping( 
+				value = "/produtos/{id}",
+				method = RequestMethod.PUT,
+				produces = "application/json",
+				consumes = "application/json"
+				
+			)
+	public ResponseEntity<Produto> 
+			alterar(
+					@PathVariable(value = "id") Integer id,
+					@RequestBody Produto produto
+					){
+		
+		if(produto == null) {
+			return new ResponseEntity<Produto>(HttpStatus.NOT_FOUND);
+		} else {
+			Produto produtoEditado = dao.editar(id, produto);
+			return new ResponseEntity<Produto>(produtoEditado, HttpStatus.ACCEPTED);
+		}
+	}
+	
+	
+	
+	@RequestMapping( 
+			value = "/produtos/{id}",
+			method = RequestMethod.PUT,
+			produces  = "application/json"
+		)
+	public ResponseEntity<Produto> 
+		deletar(
+				@PathVariable(value = "id") Integer id
+				){
+		dao.apagar(id);
+	
+		return new ResponseEntity<Produto>(HttpStatus.NO_CONTENT);
+	}
 
 
 	public ProdutoDao getDao() {
